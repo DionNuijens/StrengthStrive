@@ -1,0 +1,83 @@
+﻿@model StrengthStrive.Models.TrainingViewModel
+
+@{
+	ViewData["Title"] = "Details";
+
+	// Check if "oefeningId" exists in ViewData, and if not, set it to an empty string
+	if (!ViewData.ContainsKey("oefeningId"))
+	{
+		ViewData["oefeningId"] = "";
+	}
+}
+@{
+
+}
+<h1>Details</h1>
+
+@if (ViewBag.ErrorMessage != null)
+{
+	<p class="text-danger">@ViewBag.ErrorMessage</p>
+}
+
+<div>
+	<h4>Training</h4>
+	<hr />
+	<div></div>
+	<dl class="row">
+		<dt class="col-sm-2">
+			ID
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Id)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TrainingNaam)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TrainingNaam)
+		</dd>
+	</dl>
+</div>
+
+<div>
+	<h4>Connect New Oefening</h4>
+	<hr />
+	@using (Html.BeginForm("AddOefening", "Training", FormMethod.Post, new { id = "addOefeningForm" }))
+	{
+		@Html.HiddenFor(model => model.Id, new { Name = "trainingId" }) 
+		@Html.HiddenFor(model => model.TrainingNaam) 
+		<select asp-for="ExerciseSelectedId">
+			@for (int i = 0; i < Model?.TrainingOefening?.Count(); i++)
+			{
+				<option asp-for="Model.TrainingOefening[i]" value="@Model.TrainingOefening[i].Oefening.id">@Model.TrainingOefening[i]?.Oefening?.oefening_naam</option>
+			}
+		</select>
+			@for (int i = 0; i < Model?.TrainingOefening?.Count(); i++)
+			{
+			<input type="hidden" asp-for="@Model.TrainingOefening[i].Oefening.oefening_naam" />
+			<input type="hidden" asp-for="@Model.TrainingOefening[i].Oefening.id" />
+			}
+
+		<input asp-for="AmountOfSets" class="form-control" placeholder="Sets">
+		<input type="submit" value="Add Oefening" class="btn btn-primary" id="addOefeningButton" />
+
+	}
+</div>
+
+<div id="notification" class="alert alert-danger" style="display: none;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$("#addOefeningForm").submit(function (e) {
+			if ($("#oefeningDropdown").val() === "") {
+				e.preventDefault(); 
+				$("#notification").text("Please select an Oefening before adding.").show();
+			}
+		});
+
+		$("#oefeningDropdown").change(function () {
+			$("#notification").hide();
+		});
+	});
+</script>

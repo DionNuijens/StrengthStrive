@@ -1,0 +1,40 @@
+﻿@model IEnumerable<StrengthStrive.Models.Oefening>
+
+@{
+    ViewData["Title"] = "Oefening";
+}
+
+<h1>Oefening</h1>
+@if (ViewBag.ErrorMessage != null)
+{
+    <p class="text-danger">@ViewBag.ErrorMessage</p>
+}
+
+<p>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Oefening" asp-action="OefeningCreate">Create</a>
+</p></p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.oefening_naam)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.oefening_naam)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "OefeningEdit",  new {id = item.id, item.oefening_naam }) |
+                @Html.ActionLink("Delete", "OefeningDelete", new { id = item.id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,52 @@
+﻿@model StrengthStrive.Models.TrainingViewModel
+
+@{
+    ViewData["Title"] = "Training Details";
+}
+
+<h1>Training Details</h1>
+@if (ViewBag.ErrorMessage != null)
+{
+    <p class="text-danger">@ViewBag.ErrorMessage</p>
+}
+    
+<div>
+    <h4>Training</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Training ID
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            Training Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TrainingNaam)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Linked Oefeningen</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Oefening Naam</th>
+                <th>Sets</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TrainingOefening)
+            {
+                <tr>
+                    <td>@item.Oefening.oefening_naam</td>
+                    <td>@item.set</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
